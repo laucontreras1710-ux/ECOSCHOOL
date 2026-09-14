@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#159957">
+<link rel="manifest" href="manifest.json">
+<title>ECOSCHOOL</title>
+<style>
+:root{--green:#159957;--green2:#0f7d46;--light:#f1fbf5;--dark:#17352a;--gray:#66756d;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8f6;color:var(--dark)}
+.app{max-width:520px;margin:auto;min-height:100vh;background:#f8fbf9}
+header{background:linear-gradient(135deg,#159957,#36c878);color:white;padding:28px 22px 24px;border-radius:0 0 28px 28px;box-shadow:0 5px 20px #15995733}
+.logo{font-size:32px;font-weight:800;letter-spacing:.5px}.tag{opacity:.9;margin-top:6px}
+.points{margin-top:18px;background:#ffffff22;border:1px solid #ffffff44;padding:12px 15px;border-radius:16px;display:flex;justify-content:space-between;font-weight:700}
+main{padding:20px 17px 95px}.section{display:none}.section.active{display:block}
+h2{margin:5px 0 15px;font-size:24px}.subtitle{color:var(--gray);line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:white;border:1px solid #e4ece7;border-radius:20px;padding:18px;box-shadow:0 4px 15px #183b2a0b;cursor:pointer}.card:active{transform:scale(.98)}
+.icon{font-size:30px;margin-bottom:9px}.card b{display:block;font-size:16px;margin-bottom:5px}.card small{color:var(--gray);line-height:1.35}
+.hero{background:white;border-radius:22px;padding:20px;margin-bottom:16px;border:1px solid #e4ece7}.hero strong{font-size:18px}
+.btn{border:0;background:var(--green);color:white;padding:13px 18px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer}.btn.secondary{background:#e7f6ed;color:var(--green2)}.btn.full{width:100%;margin-top:14px}
+.quiz{background:white;border-radius:22px;padding:20px;border:1px solid #e4ece7}.question{font-size:19px;font-weight:700;line-height:1.4;margin-bottom:15px}
+.option{width:100%;text-align:left;padding:14px;border:2px solid #e2eae5;background:white;border-radius:14px;margin:7px 0;font-size:15px;cursor:pointer}.option.correct{border-color:#159957;background:#e9f8ef}.option.wrong{border-color:#d64b4b;background:#fff0f0}
+.feedback{font-weight:700;margin-top:12px;min-height:24px}.hide{display:none}
+.learn{margin-bottom:12px}.learn h3{margin:0 0 8px}.learn p{color:var(--gray);line-height:1.5;margin:0}
+.challenge{display:flex;gap:12px;align-items:flex-start;background:white;border:1px solid #e4ece7;padding:16px;border-radius:18px;margin:10px 0}.check{width:27px;height:27px;border-radius:8px;border:2px solid #b9c9c0;cursor:pointer;flex:none}.challenge.done .check{background:var(--green);border-color:var(--green)}.challenge.done .check:after{content:"✓";color:white;display:block;text-align:center;font-weight:800}.challenge.done .ctitle{text-decoration:line-through;color:#7d8b83}
+.rank{display:flex;justify-content:space-between;padding:15px;background:white;border-radius:16px;margin:9px 0;border:1px solid #e4ece7}.me{border:2px solid var(--green)}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:white;border-radius:18px;padding:18px;text-align:center;border:1px solid #e4ece7}.stat strong{display:block;font-size:27px;color:var(--green);margin-bottom:5px}.stat span{font-size:13px;color:var(--gray)}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:white;border-top:1px solid #e4ece7;display:flex;justify-content:space-around;padding:9px 4px 10px;z-index:5}nav button{border:0;background:none;color:#738078;font-size:11px;font-weight:700;cursor:pointer}nav button span{display:block;font-size:21px;margin-bottom:2px}nav button.active{color:var(--green)}
+.notice{padding:12px 14px;border-radius:14px;background:#fff8df;color:#765e14;margin:12px 0;font-size:14px;line-height:1.4}
+@media(max-width:370px){.grid{grid-template-columns:1fr}.logo{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">🌱 ECOSCHOOL</div>
+  <div class="tag">Aprende, recicla y transforma.</div>
+  <div class="points"><span>⭐ Mis puntos</span><span id="points">0</span></div>
+</header>
+
+<main>
+<section id="home" class="section active">
+  <div class="hero"><strong>¡Bienvenido a ECOSCHOOL! ♻️</strong><p class="subtitle">Una herramienta educativa para aprender a separar residuos, participar en retos ambientales y mejorar nuestros hábitos en el colegio.</p></div>
+  <h2>¿Qué quieres hacer?</h2>
+  <div class="grid">
+    <div class="card" onclick="showSection('separar')"><div class="icon">♻️</div><b>Separar residuos</b><small>Aprende dónde depositar cada material.</small></div>
+    <div class="card" onclick="showSection('aprender')"><div class="icon">📚</div><b>Aprende</b><small>Consejos sobre reciclaje y ambiente.</small></div>
+    <div class="card" onclick="showSection('retos')"><div class="icon">🎯</div><b>Retos</b><small>Completa actividades y gana puntos.</small></div>
+    <div class="card" onclick="showSection('ranking')"><div class="icon">🏆</div><b>Ranking</b><small>Consulta la clasificación de ejemplo.</small></div>
+  </div>
+</section>
+
+<section id="separar" class="section">
+<h2>♻️ Separar residuos</h2><p class="subtitle">Responde correctamente para ganar 10 puntos.</p>
+<div class="quiz">
+  <div id="qtext" class="question"></div>
+  <div id="options"></div>
+  <div id="feedback" class="feedback"></div>
+  <button id="next" class="btn full hide" onclick="nextQuestion()">Siguiente pregunta</button>
+</div>
+</section>
+
+<section id="aprender" class="section">
+<h2>📚 Aprende</h2><p class="subtitle">Pequeñas acciones generan grandes cambios.</p>
+<div class="hero learn"><h3>♻️ Reducir</h3><p>Evita comprar o utilizar productos que no necesitas y disminuye el uso de materiales desechables.</p></div>
+<div class="hero learn"><h3>🔄 Reutilizar</h3><p>Usa nuevamente objetos y materiales antes de desecharlos. Una botella reutilizable puede evitar muchos residuos.</p></div>
+<div class="hero learn"><h3>🌱 Reciclar</h3><p>Separa correctamente los residuos aprovechables para facilitar su recuperación y transformación.</p></div>
+<div class="hero learn"><h3>🏫 Cultura ambiental</h3><p>La gestión de residuos es responsabilidad de estudiantes, docentes, directivos, trabajadores y familias.</p></div>
+</section>
+
+<section id="retos" class="section">
+<h2>🎯 Retos ambientales</h2><p class="subtitle">Completa los retos para sumar puntos.</p>
+<div id="challengeList"></div>
+<div class="notice">Los retos son una demostración de la gamificación propuesta para ECOSCHOOL.</div>
+</section>
+
+<section id="ranking" class="section">
+<h2>🏆 Ranking</h2><p class="subtitle">Clasificación de demostración.</p>
+<div class="rank"><span>🥇 Curso 10A</span><b>850 pts</b></div>
+<div class="rank"><span>🥈 Curso 10B</span><b>720 pts</b></div>
+<div class="rank"><span>🥉 Curso 9A</span><b>650 pts</b></div>
+<div class="rank me"><span>⭐ Tú</span><b id="rankPoints">0 pts</b></div>
+</section>
+
+<section id="resultados" class="section">
+<h2>📊 Resultados</h2><p class="subtitle">Indicadores de demostración del proyecto.</p>
+<div class="statgrid">
+<div class="stat"><strong id="rpoints">0</strong><span>Puntos obtenidos</span></div>
+<div class="stat"><strong id="rquiz">0</strong><span>Preguntas correctas</span></div>
+<div class="stat"><strong id="rretos">0</strong><span>Retos completados</span></div>
+<div class="stat"><strong>100%</strong><span>Participación simulada</span></div>
+</div>
+<div class="hero" style="margin-top:14px"><strong>💡 Meta ambiental</strong><p class="subtitle">Registrar actividades y resultados permite identificar avances y mejorar las estrategias ambientales de la institución.</p></div>
+<button class="btn secondary full" onclick="resetProgress()">Reiniciar mi progreso</button>
+</section>
+</main>
+
+<nav>
+<button onclick="showSection('home')" id="nav-home" class="active"><span>🏠</span>Inicio</button>
+<button onclick="showSection('separar')" id="nav-separar"><span>♻️</span>Separar</button>
+<button onclick="showSection('aprender')" id="nav-aprender"><span>📚</span>Aprende</button>
+<button onclick="showSection('retos')" id="nav-retos"><span>🎯</span>Retos</button>
+<button onclick="showSection('resultados')" id="nav-resultados"><span>📊</span>Resultados</button>
+</nav>
+</div>
+
+<script>
+const questions=[
+ {q:"¿Dónde depositar una botella plástica limpia y seca?",o:["Orgánicos","Aprovechables","No aprovechables"],a:1},
+ {q:"¿Dónde depositar restos de comida?",o:["Orgánicos","Aprovechables","No aprovechables"],a:0},
+ {q:"¿Qué acción ayuda a reducir residuos?",o:["Usar más desechables","Comprar solo lo necesario","Mezclar todos los residuos"],a:1},
+ {q:"¿Qué significa reutilizar?",o:["Usar nuevamente un objeto","Botarlo inmediatamente","Mezclarlo con residuos orgánicos"],a:0},
+ {q:"¿Cuál es un beneficio de separar correctamente?",o:["Dificulta el reciclaje","Aumenta la contaminación","Facilita el aprovechamiento de materiales"],a:2}
+];
+const challenges=[
+ "Separar correctamente 5 residuos en tu salón.",
+ "Usar una botella reutilizable durante una jornada escolar.",
+ "Participar en una actividad de limpieza del colegio.",
+ "Explicar a un compañero cómo separar un residuo.",
+ "Evitar durante un día un producto desechable innecesario."
+];
+let data=JSON.parse(localStorage.getItem("ecoschool")||'{"points":0,"correct":0,"q":0,"done":[]}');
+function save(){localStorage.setItem("ecoschool",JSON.stringify(data));updateUI()}
+function updateUI(){document.getElementById("points").textContent=data.points;document.getElementById("rankPoints").textContent=data.points+" pts";document.getElementById("rpoints").textContent=data.points;document.getElementById("rquiz").textContent=data.correct;document.getElementById("rretos").textContent=data.done.length}
+function showSection(id){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ const n=document.getElementById("nav-"+id); if(n)n.classList.add("active");
+ if(id==="separar")renderQuestion(); if(id==="retos")renderChallenges(); updateUI(); window.scrollTo(0,0);
+}
+function renderQuestion(){
+ const x=questions[data.q%questions.length];
+ document.getElementById("qtext").textContent=x.q;
+ document.getElementById("options").innerHTML=x.o.map((v,i)=>`<button class="option" onclick="answer(${i})">${v}</button>`).join("");
+ document.getElementById("feedback").textContent="";
+ document.getElementById("next").classList.add("hide");
+}
+function answer(i){
+ const x=questions[data.q%questions.length], opts=document.querySelectorAll(".option");
+ opts.forEach(b=>b.disabled=true);
+ opts[i].classList.add(i===x.a?"correct":"wrong");
+ if(i===x.a){data.points+=10;data.correct++;document.getElementById("feedback").textContent="✅ ¡Correcto! +10 puntos";}else{opts[x.a].classList.add("correct");document.getElementById("feedback").textContent="❌ Casi. La respuesta correcta está marcada en verde."}
+ document.getElementById("next").classList.remove("hide");save();
+}
+function nextQuestion(){data.q++;save();renderQuestion()}
+function renderChallenges(){
+ const box=document.getElementById("challengeList");
+ box.innerHTML=challenges.map((t,i)=>`<div class="challenge ${data.done.includes(i)?"done":""}" onclick="toggleChallenge(${i})"><div class="check"></div><div><div class="ctitle"><b>${t}</b></div><small style="color:#66756d">Completar reto: +20 puntos</small></div></div>`).join("");
+}
+function toggleChallenge(i){
+ if(data.done.includes(i))return;
+ data.done.push(i);data.points+=20;save();renderChallenges();
+}
+function resetProgress(){if(confirm("¿Quieres reiniciar tus puntos y progreso?")){data={points:0,correct:0,q:0,done:[]};save();renderChallenges()}}
+updateUI();
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
